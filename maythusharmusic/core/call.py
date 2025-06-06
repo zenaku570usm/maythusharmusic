@@ -52,20 +52,13 @@ autoend: Dict[int, datetime] = {}
 counter: Dict[int, Dict[str, Any]] = {}
 
 
-def dynamic_media_stream(
-    path: str,
-    video: bool = False,
-    ffmpeg_params: Optional[str] = None
-) -> MediaStream:
-    """Create a MediaStream object with appropriate parameters."""
+def dynamic_media_stream(path: str, video: bool = False, ffmpeg_params: str = None) -> MediaStream:
     return MediaStream(
         audio_path=path,
         media_path=path,
-        audio_parameters=AudioQuality.STUDIO,
+        audio_parameters=AudioQuality.STUDIO if video else AudioQuality.STUDIO,
         video_parameters=VideoQuality.HD_720p if video else VideoQuality.HD_720p,
-        video_flags=(
-            MediaStream.Flags.AUTO_DETECT if video else MediaStream.Flags.IGNORE
-        ),
+        video_flags=(MediaStream.Flags.AUTO_DETECT if video else MediaStream.Flags.IGNORE),
         ffmpeg_parameters=ffmpeg_params,
     )
 
