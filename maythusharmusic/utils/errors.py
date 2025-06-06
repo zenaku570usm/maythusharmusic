@@ -5,6 +5,7 @@ from functools import wraps
 from pyrogram.errors.exceptions.forbidden_403 import ChatWriteForbidden
 from maythusharmusic import app
 from maythusharmusic.logging import LOGGER
+from BADMUSIC.utils.pastebin import HottyBin
 
 
 def split_limits(text):
@@ -54,3 +55,35 @@ def capture_err(func):
             raise err
 
     return capture
+
+
+def capture_internal_err(func):
+    """
+    Handles errors in background/internal async bot functions.
+    """
+    @wraps(func)
+    async def wrapper(*args, **kwargs):
+        try:
+            return await func(*args, **kwargs)
+        except Exception as err:
+            tb = "".join(traceback.format_exception(*sys.exc_info()))
+            extras = {"Function": func.__name__}
+            filename = f"internal_error_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+            await handle_trace(err, tb, "Internal Error", filename, extras)
+            raise err
+    return wrapper
+
+async def send_large_error(text: str, caption: str, filename: str):
+    try:
+        paste_url = await HottyBin(text)
+        if paste_url:
+            await app.send_message(LOGGER_ID, f"{caption}\n\n🔗 Paste: {paste_url}")
+            return
+    except Exception:
+        pass
+
+    path = f"{filename}.txt"
+    async with aiofiles.open(path, "w") as f:
+        await f.write(text)
+    await app.send_document(LOGGER_ID, path, caption="❌ Error Log (Fallback)")
+    os.remove(path)
