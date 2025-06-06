@@ -1,6 +1,6 @@
 services:
   - type: worker
-    name: maythusharmusicvv3
+    name: maythusharv3
     env: python
     region: frankfurt
     plan: pro
