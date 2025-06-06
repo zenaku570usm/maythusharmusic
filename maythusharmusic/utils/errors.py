@@ -5,7 +5,7 @@ from functools import wraps
 from pyrogram.errors.exceptions.forbidden_403 import ChatWriteForbidden
 from maythusharmusic import app
 from maythusharmusic.logging import LOGGER
-from BADMUSIC.utils.pastebin import HottyBin
+from maythusharmusic.utils.pastebin import HottyBin
 
 
 def split_limits(text):
