@@ -78,68 +78,19 @@ async def _clear_(chat_id: int) -> None:
 
 class Call:
     def __init__(self):
-        self._initialize_clients()
-
-    def _initialize_clients(self):
-        """Initialize all available client sessions."""
-        self.userbot1 = (
-            Client(
-                "maythusharmusic1",
-                config.API_ID,
-                config.API_HASH,
-                session_string=config.STRING1,
-            )
-            if config.STRING1
-            else None
-        )
+        self.userbot1 = Client("maythusharmusic1", config.API_ID, config.API_HASH, session_string=config.STRING1) if config.STRING1 else None
         self.one = PyTgCalls(self.userbot1) if self.userbot1 else None
 
-        self.userbot2 = (
-            Client(
-                "maythusharmusic2",
-                config.API_ID,
-                config.API_HASH,
-                session_string=config.STRING2,
-            )
-            if config.STRING2
-            else None
-        )
+        self.userbot2 = Client("maythusharmusic2", config.API_ID, config.API_HASH, session_string=config.STRING2) if config.STRING2 else None
         self.two = PyTgCalls(self.userbot2) if self.userbot2 else None
 
-        self.userbot3 = (
-            Client(
-                "maythusharmusic3",
-                config.API_ID,
-                config.API_HASH,
-                session_string=config.STRING3,
-            )
-            if config.STRING3
-            else None
-        )
+        self.userbot3 = Client("maythusharmusic3", config.API_ID, config.API_HASH, session_string=config.STRING3) if config.STRING3 else None
         self.three = PyTgCalls(self.userbot3) if self.userbot3 else None
 
-        self.userbot4 = (
-            Client(
-                "maythusharmusic4",
-                config.API_ID,
-                config.API_HASH,
-                session_string=config.STRING4,
-            )
-            if config.STRING4
-            else None
-        )
+        self.userbot4 = Client("maythusharmusic4", config.API_ID, config.API_HASH, session_string=config.STRING4) if config.STRING4 else None
         self.four = PyTgCalls(self.userbot4) if self.userbot4 else None
 
-        self.userbot5 = (
-            Client(
-                "maythusharmusic5",
-                config.API_ID,
-                config.API_HASH,
-                session_string=config.STRING5,
-            )
-            if config.STRING5
-            else None
-        )
+        self.userbot5 = Client("maythusharmusic5", config.API_ID, config.API_HASH, session_string=config.STRING5) if config.STRING5 else None
         self.five = PyTgCalls(self.userbot5) if self.userbot5 else None
 
     @capture_internal_err
