@@ -3,8 +3,8 @@ import os
 import re
 import json
 from typing import Union
-import yt_dlp
 
+import yt_dlp
 from pyrogram.enums import MessageEntityType
 from pyrogram.types import Message
 from youtubesearchpython.__future__ import VideosSearch
@@ -12,25 +12,28 @@ from youtubesearchpython.__future__ import VideosSearch
 from maythusharmusic.utils.database import is_on_off
 from maythusharmusic.utils.formatters import time_to_seconds
 
+
+
+import os
 import glob
 import random
 import logging
+
+
 import requests
+import os
 import time
-
-
-# ✅ Configurable constants
-API_KEY = "Rf1qda5gyCITj6VbrekzRxmR"
-API_BASE_URL = "http://deadlinetech.site"
-
-MIN_FILE_SIZE = 51200
-
 def extract_video_id(link: str) -> str:
+    """
+    Extracts the video ID from a variety of YouTube links.
+    Supports full, shortened, and playlist URLs.
+    """
+    # Regular expression to match different YouTube link formats
     patterns = [
-        r'youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=)([0-9A-Za-z_-]{11})',
-        r'youtu\.be\/([0-9A-Za-z_-]{11})',
-        r'youtube\.com\/(?:playlist\?list=[^&]+&v=|v\/)([0-9A-Za-z_-]{11})',
-        r'youtube\.com\/(?:.*\?v=|.*\/)([0-9A-Za-z_-]{11})'
+        r'youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=)([0-9A-Za-z_-]{11})',  # youtube.com/watch?v= or youtube.com/embed/
+        r'youtu\.be\/([0-9A-Za-z_-]{11})',  # youtu.be/short link
+        r'youtube\.com\/(?:playlist\?list=[^&]+&v=|v\/)([0-9A-Za-z_-]{11})',  # youtube.com/playlist?list= and youtube.com/v/
+        r'youtube\.com\/(?:.*\?v=|.*\/)([0-9A-Za-z_-]{11})'  # youtube.com/watch?v= with additional query parameters
     ]
 
     for pattern in patterns:
@@ -39,51 +42,61 @@ def extract_video_id(link: str) -> str:
             return match.group(1)
 
     raise ValueError("Invalid YouTube link provided.")
-    
-
-
-def api_dl(video_id: str) -> str | None:
-    api_url = f"{API_BASE_URL}/download/song/{video_id}?key={API_KEY}"
+def apii_dl(video_id: str) -> str:
+    api_url = f"http://178.16.139.205:8000/download/song/{video_id}"
     file_path = os.path.join("downloads", f"{video_id}.mp3")
 
-    # ✅ Check if already downloaded
+    # Check if file already exists
+    if os.path.exists(file_path):
+        print(f"{file_path} already exists. Skipping download.")
+        return file_path
+
+    # Download the file
+    response = requests.get(api_url, stream=True)
+
+    if response.status_code == 200:
+        os.makedirs("downloads", exist_ok=True)
+        with open(file_path, 'wb') as f:
+            for chunk in response.iter_content(chunk_size=8192):
+                f.write(chunk)
+        print(f"Downloaded {file_path}")
+        return file_path
+    else:
+        print(f"Failed to download {video_id}. Status: {response.status_code}")
+        return None
+
+
+import os
+import requests
+
+def api_dl(video_id: str) -> str:
+    api_url = f"http://178.16.139.205:8000/download/song/{video_id}"
+    file_path = os.path.join("downloads", f"{video_id}.mp3")
+
+    # Check if file already exists
     if os.path.exists(file_path):
         print(f"{file_path} already exists. Skipping download.")
         return file_path
 
     try:
-        response = requests.get(api_url, stream=True, timeout=10)
-
-        if response.status_code == 200:
-            os.makedirs("downloads", exist_ok=True)
-            with open(file_path, 'wb') as f:
-                for chunk in response.iter_content(chunk_size=8192):
-                    if chunk:
+        # Stream download using context manager
+        with requests.get(api_url, stream=True) as response:
+            if response.status_code == 200:
+                os.makedirs("downloads", exist_ok=True)
+                with open(file_path, 'wb') as f:
+                    for chunk in response.iter_content(chunk_size=8192):
                         f.write(chunk)
-
-            # ✅ Check file size
-            file_size = os.path.getsize(file_path)
-            if file_size < MIN_FILE_SIZE:
-                print(f"Downloaded file is too small ({file_size} bytes). Removing.")
-                os.remove(file_path)
+                print(f"Downloaded {file_path}")
+                return file_path
+            else:
+                print(f"Failed to download {video_id}. Status: {response.status_code}")
                 return None
-
-            print(f"Downloaded {file_path} ({file_size} bytes)")
-            return file_path
-
-        else:
-            print(f"Failed to download {video_id}. Status: {response.status_code}")
-            return None
-
     except requests.RequestException as e:
-        print(f"Download error for {video_id}: {e}")
+        print(f"Error downloading {video_id}: {e}")
+        # Cleanup if download fails
+        if os.path.exists(file_path):
+            os.remove(file_path)
         return None
-
-    except OSError as e:
-        print(f"File error for {video_id}: {e}")
-        return None
-
-
 
 
 
@@ -364,40 +377,37 @@ class YouTubeAPI:
         if videoid:
             link = self.base + link
         loop = asyncio.get_running_loop()
-        
         def audio_dl():
             try:
                 sexid = extract_video_id(link)
                 path = api_dl(sexid)
                 if path:
                     return path
-                else:
-                    print("API download returned None. Falling back to yt-dlp.")
-            except Exception as e:
-                print(f"API failed: {e}. Falling back to yt-dlp.")
-
-            # yt-dlp fallback
+            except:
+                print("api failed")
+            try:
+                sexid = extract_video_id(link)
+                path = api_dl(sexid)
+                if path:
+                    return path
+            except:
+                print("api dl second attempt failed")
             ydl_optssx = {
                 "format": "bestaudio/best",
                 "outtmpl": "downloads/%(id)s.%(ext)s",
                 "geo_bypass": True,
                 "nocheckcertificate": True,
                 "quiet": True,
-                "cookiefile": cookie_txt_file(),
+                "cookiefile" : cookie_txt_file(),
                 "no_warnings": True,
             }
-
-            try:
-                x = yt_dlp.YoutubeDL(ydl_optssx)
-                info = x.extract_info(link, False)
-                xyz = os.path.join("downloads", f"{info['id']}.{info['ext']}")
-                if os.path.exists(xyz):
-                    return xyz
-                x.download([link])
+            x = yt_dlp.YoutubeDL(ydl_optssx)
+            info = x.extract_info(link, False)
+            xyz = os.path.join("downloads", f"{info['id']}.{info['ext']}")
+            if os.path.exists(xyz):
                 return xyz
-            except Exception as e:
-                print(f"yt-dlp failed: {e}")
-                return None
+            x.download([link])
+            return xyz
 
         def video_dl():
             ydl_optssx = {
