@@ -1,23 +1,23 @@
 services:
   - type: worker
-    name: maythusharmusicv2
+    name: maythusharmusicvv3
     env: python
-    plan: pro
-    region: oregon
+    region: frankfurt
+    plan: standard
     buildCommand: pip3 install --no-cache-dir --upgrade --requirement requirements.txt
     startCommand: bash start
     envVars:
       - key: API_ID
-        value: "23301178"
+        value: "23596049"
       - key: API_HASH
-        value: "7387774d17aaa79c3744ff5d9d148214"
+        value: "62c2019123d852fc8cc2092ca879f31c"
       - key: BOT_TOKEN
-        value: "7742260549:AAEdDkdYQ4Os7PxJMLktkjg6sVbI7nWkjdY"
+        value: "7892011487:AAEgqHEy3x9TUgZ7i9LZaaz4vDO6v3Pv0EU"
       - key: MONGO_DB_URI
-        value: "mongodb+srv://pyaesonev1:pyaesone@pyaesonev1.4nssv9g.mongodb.net/?retryWrites=true&w=majority"
+        value: "mongodb+srv://wanglin:wanglin@wanglin.ppt93bd.mongodb.net/?retryWrites=true&w=majority"
       - key: OWNER_ID
         value: "6940535380"
       - key: LOGGER_ID
-        value: "-1002016915736"
+        value: "-1001901470191"
       - key: STRING_SESSION
-        value: "BQFjjDoApOxxXGD-OtbxtumzQ4EoaaYpXnwZxkI0e5T_SPxcUYT_BE9Nfv2Am2ksnJ-sh4iDYl26FpAi7GvOU5fOYe5oWL4WIJjUF3gNbwM65Lr1fx1skl20NtqPB7u8M5lGBdcU2uB2y-kMbZHTABkLCRMUoNl5038mbwOCB5Nn5T01tzl9X8_2A5wKVxc8sQUwmRhqxWBQNii4iAZIB5P7I6Wycml-jO1tCm5cA8oqMvReafoCUiR2YS-87qw9gX0wLY1HMb8kMLaZdvYNIxHadxZOcNKMrIkV0oVTXVib1oXRO-g980SveIXhn04wHOmUUiBhJ4jGDZmIS8VsCYdunsMBCAAAAAFsjYQzAA"
+        value: "BQFoDBEArtikhUPMxnqgDEOP66B4SNXFo9gZpd7SPOt_Gsa5tVwM0KnHhwe8AaFFzROhR6vD5htGc1y_8YpQil-FhPGY8IXXp0qEyP0CyyaX5PDm8fw54non08llLqroIAJ7zA9sW0sZ1yzapAN0jjyPvukn0sFHLt84YchAAaqIWumpVuHq1NbYGEXHiMu4TEe-gxpf-Y2sJkTlmKGeN37rMIGG1xrmq2NkwMtXsh90KBrJS6KccKmwKjRraiwLA0mJTe3qTzP23nqe7udGDn40LnbfLdrD9MhuLuU5aSpw63GKTDzfg8C689M4_5xpR1PuuaCKSnyyz9ORjWpCUEg8g6WmRAAAAAFQk4y9AA"
