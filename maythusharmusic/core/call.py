@@ -5,12 +5,10 @@ from typing import Union
 
 from pyrogram import Client
 from pyrogram.types import InlineKeyboardMarkup
+from pyrogram.errors import ChatAdminRequired
 from ntgcalls import TelegramServerError
 from pytgcalls import PyTgCalls
-from pytgcalls.exceptions import (
-    AlreadyJoinedError,
-    NoActiveGroupCall,
-)
+from pytgcalls.exceptions import NoActiveGroupCall
 from pytgcalls.types import (
     MediaStream,
     AudioQuality,
@@ -360,9 +358,9 @@ class Call(PyTgCalls):
                 chat_id,
                 stream,
             )
-        except NoActiveGroupCall:
+        except (NoActiveGroupCall, ChatAdminRequired):
             raise AssistantErr(_["call_8"])
-        except AlreadyJoinedError:
+        except TelegramServerError:
             raise AssistantErr(_["call_9"])
         except TelegramServerError:
             raise AssistantErr(_["call_10"])
