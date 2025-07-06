@@ -8,16 +8,16 @@ services:
     startCommand: bash start
     envVars:
       - key: API_ID
-        value: "23596049"
+        value: "29758428"
       - key: API_HASH
-        value: "62c2019123d852fc8cc2092ca879f31c"
+        value: "51f9369e03f78674ca21aee8dfd1c842"
       - key: BOT_TOKEN
-        value: "7892011487:AAEgqHEy3x9TUgZ7i9LZaaz4vDO6v3Pv0EU"
+        value: "7792923188:AAGliIacFzC0aJ_GzOqNul6MsvTC3eXhP7U"
       - key: MONGO_DB_URI
         value: "mongodb+srv://wanglin:wanglin@wanglin.ppt93bd.mongodb.net/?retryWrites=true&w=majority"
       - key: OWNER_ID
-        value: "6940535380"
+        value: "1318826936"
       - key: LOGGER_ID
-        value: "-1001901470191"
+        value: "-1002326433754"
       - key: STRING_SESSION
-        value: "BQFoDBEArtikhUPMxnqgDEOP66B4SNXFo9gZpd7SPOt_Gsa5tVwM0KnHhwe8AaFFzROhR6vD5htGc1y_8YpQil-FhPGY8IXXp0qEyP0CyyaX5PDm8fw54non08llLqroIAJ7zA9sW0sZ1yzapAN0jjyPvukn0sFHLt84YchAAaqIWumpVuHq1NbYGEXHiMu4TEe-gxpf-Y2sJkTlmKGeN37rMIGG1xrmq2NkwMtXsh90KBrJS6KccKmwKjRraiwLA0mJTe3qTzP23nqe7udGDn40LnbfLdrD9MhuLuU5aSpw63GKTDzfg8C689M4_5xpR1PuuaCKSnyyz9ORjWpCUEg8g6WmRAAAAAFQk4y9AA"
+        value: "BQHGE9wAf3ALrE6YGivnvjFH8qxZwUA-sho_MmPHgXulfLliMSS_To9-Y3AEk9CGLrN1mohXYCkQUMxS6vjCU9MhGk_1YAb36MlCUD0fF3M30ZhDskfiUHZ1YnkVmhuNsPhrvNbw-wnvrzOigidHP6USozd2Zg-a1LLzWoh5X4AVEi7fkqKFYQc5nU-dX6zwnHjpq0GbwIQEhHBNPBAq5eKWzO_BJdP0TP7uu3e1wnO4OIqcSZEDFN8Sm0_cCVQxS0bSpB8nCZG0YBhlTsPsd54QCsVl89Wri224_e3e1Vhj6x4RzsTrjlO0_nW1fq6RfB7mMZbvTCZhtCJVmaDjG1WzL7hATQAAAAFbAziCAA"
